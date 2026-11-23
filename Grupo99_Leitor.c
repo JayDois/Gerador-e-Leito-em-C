@@ -148,12 +148,12 @@ void exibindo_Nome(){
     fread(&j, sizeof(jogo), 100, p);
    
     for(i=0; i<100; i++){
-    printf("\n------------------------------\n");
-    fprintf(arq,"\n------------------------------\n");
-    printf("        Jogo %d \n", i+1);
-    fprintf(arq,"        Jogo %d \n", i+1);
-    printf("------------------------------\n");
-    fprintf(arq,"------------------------------\n");
+    printf("\n------------------------------------------\n");
+    fprintf(arq,"\n------------------------------------------\n");
+    printf("                   JOGO %d \n", i+1);
+    fprintf(arq,"                  JOGO %d \n", i+1);
+    printf("------------------------------------------\n");
+    fprintf(arq,"------------------------------------------\n");
     printf("  Nome: %s\n", j[i].nome);
     fprintf(arq,"  Nome: %s\n", j[i].nome);
     printf("  ID: %i\n", j[i].id);
@@ -169,15 +169,15 @@ int pesq_genero(){
     jogo j[100];
     int i, k, e;
     p = fopen(ARQ_NAME, "rb");
-    arq = fopen("Pesquisa_Genero", "w");
+    arq = fopen("Pesquisa_Genero.txt", "w"); //
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
-    printf("\n\n------------------------------\n");
-    printf("        POR GENERO\n");
-    printf("------------------------------\n");
+    printf("\n\n------------------------------------------\n");
+    printf("                POR GÊNERO\n");
+    printf("------------------------------------------\n");
     printf("Qual genero deseja ver?\n");
     for(i=0;i<20;i++){
         printf("[%d] = %s\n", i+1, print_genero(i));
@@ -186,12 +186,12 @@ int pesq_genero(){
     printf("\n§... ");
     scanf("%d", &e);
     
-    printf("\n------------------------------\n");
-    fprintf(arq,"\n------------------------------\n");
-    printf("        Genero %s \n", print_genero(e-1));
-    fprintf(arq,"        Genero %s \n", print_genero(e-1));
-    printf("------------------------------\n");
-    fprintf(arq, "------------------------------\n");
+    printf("\n------------------------------------------\n");
+    fprintf(arq,"\n------------------------------------------\n");
+    printf("                  GÊNERO %s \n", print_genero(e-1));
+    fprintf(arq,"                 GÊNERO %s \n", print_genero(e-1));
+    printf("------------------------------------------\n");
+    fprintf(arq, "------------------------------------------\n");
 
     if(e >20){
         return 1;
@@ -210,6 +210,53 @@ int pesq_genero(){
     fclose(arq);
     return 0;
 }
+    
+int pesq_nota(){
+    FILE *arq;
+    FILE *p;   
+    jogo j[100];
+    int i;
+    float min, max;
+    printf("\n\n------------------------------------------\n");
+    printf("                 POR NOTA \n");
+    printf("------------------------------------------\n");
+    printf("Qual é a nota máxima dos jogos que queres ver?\n");
+    printf("§... ");
+    scanf("%f", &max);
+    printf("Qual é a nota mínima?\n");
+    printf("§... ");
+    scanf("%f", &min);
+    arq = fopen("Pesquisa_nota.txt", "w");
+    p = fopen(ARQ_NAME, "rb");
+    if(!p || !arq){
+        printf("Erro ao abrir o arquivo");
+        return 0;
+    }
+    fread(&j, sizeof(jogo), 100, p);
+    if(max>=6.8){
+    printf("\n------------------------------------------\n");
+    fprintf(arq,"\n------------------------------------------\n");
+    printf("       JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+    fprintf(arq,"      JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+    printf("------------------------------------------\n");
+    fprintf(arq, "------------------------------------------\n");
+
+        for(i=0; i<100; i++){
+            if((j[i].nota >= min) && (j[i].nota <= max)){
+                printf("Nome: %s    \nID: %d    \nNota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);
+                fprintf(arq, "Nome: %s    \nID: %d    \nNota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);            
+            } 
+        }
+    } else{
+        printf("\nInfelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
+        fprintf(arq,"\nInfelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
+        return 0;
+    }
+    fclose(p);
+    fclose(arq);
+    return 0;
+}    
+    
 void pesq_ID(){
     FILE *arq;
     FILE *p;
@@ -229,12 +276,12 @@ void pesq_ID(){
     for(i=0; i<100; i++){
         if(id==i+1){
         
-            printf("\n------------------------------\n");
-            fprintf(arq,"\n------------------------------\n");
-            printf("        Jogo %d \n", i+1);
-            fprintf(arq,"        Jogo %d \n", i+1);
-            printf("------------------------------\n");
-            fprintf(arq, "------------------------------\n");
+            printf("\n------------------------------------------\n");
+            fprintf(arq,"\n------------------------------------------\n");
+            printf("                  JOGO %d \n", i+1);
+            fprintf(arq,"                  JOGO %d \n", i+1);
+            printf("------------------------------------------\n");
+            fprintf(arq, "------------------------------------------\n");
             printf("  Nome: %s\n", j[i].nome);
             fprintf(arq,"  Nome: %s\n", j[i].nome);
             printf("  Generos: ");
@@ -277,9 +324,9 @@ void pesq_ID(){
 int main(){
     int sair = 0, e;    
     do{
-        printf("\n\n------------------------------\n");
-        printf("        MENU PRINCIPAL\n");
-        printf("------------------------------\n");
+        printf("\n\n------------------------------------------\n");
+        printf("              MENU PRINCIPAL\n");
+        printf("------------------------------------------\n");
         printf("Como queres ver cada jogo?\n");
         printf("[1] = Todos os Jogos.\n");
         printf("[2] = Por Gênero.\n");
@@ -295,6 +342,9 @@ int main(){
                 break;
             case 2:
                 pesq_genero();
+                break;
+            case 3:
+                pesq_nota();
                 break;
             case 9: 
                 pesq_ID();
