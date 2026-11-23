@@ -163,7 +163,7 @@ void exibindo_Nome(){
     fclose(arq);    
 }
 
-void pesq_genero(){
+int pesq_genero(){
     FILE *p;
     FILE *arq;
     jogo j[100];
@@ -172,7 +172,9 @@ void pesq_genero(){
     arq = fopen("Pesquisa_Genero", "w");
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
+        return 1;
     }
+    fread(&j, sizeof(jogo), 100, p);
     printf("\n\n------------------------------\n");
     printf("        POR GENERO\n");
     printf("------------------------------\n");
@@ -183,8 +185,30 @@ void pesq_genero(){
     printf("[0] = Sair.\n");
     printf("\n§... ");
     scanf("%d", &e);
-    printf("\n%d", e);
+    
+    printf("\n------------------------------\n");
+    fprintf(arq,"\n------------------------------\n");
+    printf("        Genero %s \n", print_genero(e-1));
+    fprintf(arq,"        Genero %s \n", print_genero(e-1));
+    printf("------------------------------\n");
+    fprintf(arq, "------------------------------\n");
 
+    if(e >20){
+        return 1;
+    }
+    for(i=0;i<100;i++){
+        int encontrado = 0;
+        for(k=0;k<3;k++){
+            if(j[i].generos[k] == (genero)e-1) encontrado = 1;
+        }
+        if(encontrado){
+            printf("Nome: %s    ID: %d\n\n", j[i].nome, j[i].id);
+            fprintf(arq, "Nome: %s    ID: %d\n\n", j[i].nome, j[i].id);
+        }  
+    }
+    fclose(p);
+    fclose(arq);
+    return 0;
 }
 void pesq_ID(){
     FILE *arq;
@@ -272,8 +296,6 @@ int main(){
             case 2:
                 pesq_genero();
                 break;
-            case 3:
-
             case 9: 
                 pesq_ID();
                 break;
