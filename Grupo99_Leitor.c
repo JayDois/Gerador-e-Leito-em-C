@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define ARQ_NAME "Grupo_Jogos.bin"
 
@@ -134,33 +135,69 @@ const char* print_dificuldade(int dificuldade){
     return "Desconhecida";
 }
 
+void limparTela() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+void perguntar(){
+    int e;
+    printf("\n\n  ------------------------------------------\n");
+    printf("             QUERES VOLTAR AO MENU?\n");
+    printf("  ------------------------------------------\n");
+    printf("  [1] = Sim.\n");
+    printf("  [2] = Não.\n");
+    printf("\n  §... ");  
+    scanf("%d", &e);
+    switch(e){
+        case 1:
+            limparTela();
+            printf("  Voltando ao MENU...");
+            break;
+        case 2:
+            limparTela();
+            printf("\n  Saindo do programa...");  
+            exit(0);
+            break;
+        default:
+            limparTela();
+            printf("\n  Opção não encontrada. Voltando ao MENU.");
+            break;
+    }
+}
+
 void exibindo_Nome(){
     FILE *p;
     FILE *arq;
     jogo j[100];
     int i;
+    limparTela();
     arq = fopen("Todos_os_Jogos.txt", "w");
     p = fopen("Grupo_Jogos.bin", "rb");
     if(!p){
-        printf("Erro ao abrir o arquivo");
-        fprintf(arq, "Erro ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
     }
     fread(&j, sizeof(jogo), 100, p);
    
     for(i=0; i<100; i++){
-    printf("\n------------------------------------------\n");
-    fprintf(arq,"\n------------------------------------------\n");
-    printf("                   JOGO %d \n", i+1);
-    fprintf(arq,"                  JOGO %d \n", i+1);
-    printf("------------------------------------------\n");
-    fprintf(arq,"------------------------------------------\n");
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("                     JOGO %d \n", i+1);
+    fprintf(arq,"                    JOGO %d \n", i+1);
+    printf("  ------------------------------------------\n");
+    fprintf(arq,"  ------------------------------------------\n");
     printf("  Nome: %s\n", j[i].nome);
     fprintf(arq,"  Nome: %s\n", j[i].nome);
     printf("  ID: %i\n", j[i].id);
     fprintf(arq,"  ID: %i\n", j[i].id);
     }
     fclose(p);    
-    fclose(arq);    
+    fclose(arq); 
+    perguntar();
 }
 
 int pesq_genero(){
@@ -168,8 +205,9 @@ int pesq_genero(){
     FILE *arq;
     jogo j[100];
     int i, k, e;
+    limparTela();
     p = fopen(ARQ_NAME, "rb");
-    arq = fopen("Pesquisa_Genero.txt", "w"); //
+    arq = fopen("Pesquisa_Gênero.txt", "w"); //
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
         return 1;
@@ -185,11 +223,11 @@ int pesq_genero(){
     printf("[0] = Sair.\n");
     printf("\n§... ");
     scanf("%d", &e);
-    
+    limparTela();    
     printf("\n------------------------------------------\n");
     fprintf(arq,"\n------------------------------------------\n");
-    printf("                  GÊNERO %s \n", print_genero(e-1));
-    fprintf(arq,"                 GÊNERO %s \n", print_genero(e-1));
+    printf("                  GÊNERO: %s\n", print_genero(e-1));
+    fprintf(arq,"                 GÊNERO: %s\n", print_genero(e-1));
     printf("------------------------------------------\n");
     fprintf(arq, "------------------------------------------\n");
 
@@ -202,86 +240,219 @@ int pesq_genero(){
             if(j[i].generos[k] == (genero)e-1) encontrado = 1;
         }
         if(encontrado){
-            printf("Nome: %s    ID: %d\n\n", j[i].nome, j[i].id);
-            fprintf(arq, "Nome: %s    ID: %d\n\n", j[i].nome, j[i].id);
+            printf("  Nome: %s\n  ID: %d\n\n", j[i].nome, j[i].id);
+            fprintf(arq,"  Nome: %s\n  ID: %d\n\n", j[i].nome, j[i].id);
         }  
     }
     fclose(p);
     fclose(arq);
+    perguntar();
     return 0;
 }
     
-int pesq_nota(){
+int por_nota(){
     FILE *arq;
     FILE *p;   
     jogo j[100];
     int i;
     float min, max;
-    printf("\n\n------------------------------------------\n");
-    printf("                 POR NOTA \n");
-    printf("------------------------------------------\n");
-    printf("Qual é a nota máxima dos jogos que queres ver?\n");
-    printf("§... ");
+    limparTela();
+    printf("\n\n  ----------------------------------------------\n");
+    printf("                     POR NOTA \n");
+    printf("  ----------------------------------------------\n");
+    printf("  Qual é a nota máxima dos jogos que queres ver?\n");
+    printf("  §... ");
     scanf("%f", &max);
-    printf("Qual é a nota mínima?\n");
-    printf("§... ");
+    printf("  Qual é a nota mínima?\n");
+    printf("  §... ");
     scanf("%f", &min);
-    arq = fopen("Pesquisa_nota.txt", "w");
+    arq = fopen("Pesquisa_Nota.txt", "w");
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("Erro ao abrir o arquivo");
         return 0;
     }
     fread(&j, sizeof(jogo), 100, p);
+    limparTela();
     if(max>=6.8){
-    printf("\n------------------------------------------\n");
-    fprintf(arq,"\n------------------------------------------\n");
-    printf("       JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
-    fprintf(arq,"      JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
-    printf("------------------------------------------\n");
-    fprintf(arq, "------------------------------------------\n");
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("        JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+    fprintf(arq,"       JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+    printf("  ------------------------------------------\n");
+    fprintf(arq,"  ------------------------------------------\n");
 
         for(i=0; i<100; i++){
             if((j[i].nota >= min) && (j[i].nota <= max)){
-                printf("Nome: %s    \nID: %d    \nNota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);
-                fprintf(arq, "Nome: %s    \nID: %d    \nNota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);            
+                printf("  Nome: %s    \n  ID: %d    \n  Nota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);
+                fprintf(arq,"  Nome: %s    \n  ID: %d    \n  Nota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);            
             } 
         }
     } else{
-        printf("\nInfelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
-        fprintf(arq,"\nInfelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
+        printf("\n  Infelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
+        fprintf(arq,"\n  Infelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
         return 0;
     }
     fclose(p);
     fclose(arq);
+    perguntar();
     return 0;
 }    
+
+int por_preco(){
+    FILE *arq;
+    FILE *p;   
+    jogo j[100];
+    int i;
+    float min, max;
+    limparTela();
+    printf("\n\n  --------------------------------------------------------\n");
+    printf("                          POR PREÇO \n");
+    printf("  ------------------------------------------------------------\n");
+    printf("  Qual é o preço máximo em reais(R$) dos jogos que queres ver?\n");
+    printf("  §... ");
+    scanf("%f", &max);
+    printf("  Qual é o preço mínimo em reais(R$)?\n");
+    printf("  §... ");
+    scanf("%f", &min);
+    arq = fopen("Pesquisa_Preço.txt", "w");
+    p = fopen(ARQ_NAME, "rb");
+    if(!p || !arq){
+        printf("  Erro ao abrir o arquivo");
+        return 0;
+    }
+    fread(&j, sizeof(jogo), 100, p);
+    limparTela();
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("        JOGOS COM PREÇO DE %.1f a %.1f: \n", min, max);
+    fprintf(arq,"       JOGOS COM PREÇO DE %.1f a %.1f: \n", min, max);
+    printf("  ------------------------------------------\n");
+    fprintf(arq, "  ------------------------------------------\n");
+
+        for(i=0; i<100; i++){
+            if((j[i].preco >= min) && (j[i].preco <= max)){
+                if(j[i].preco == 0){
+                    printf("  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);
+                    fprintf(arq, "  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);  
+                } else {
+                    printf("  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);
+                    fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);                          
+                }
+            } 
+        }
+    fclose(p);
+    fclose(arq);
+    perguntar();
+    return 0;
+}    
+
+void por_tempo(){
+    FILE *arq;
+    FILE *p;   
+    jogo j[100];
+    int i;
+    float min, max;
+    limparTela();
+    printf("\n\n  ---------------------------------------------------------------------\n");
+    printf("                                POR TEMPO \n");
+    printf("  ---------------------------------------------------------------------\n");
+    printf("  Qual é o tempo máximo de duração (em horas) dos jogos que queres ver?\n");
+    printf("  §... ");
+    scanf("%f", &max);
+    printf("  E qual é o tempo mínimo em horas?\n");
+    printf("  §... ");
+    scanf("%f", &min);
+    arq = fopen("Pesquisa_Tempo.txt", "w");
+    p = fopen(ARQ_NAME, "rb");
+    if(!p || !arq){
+        printf("  Erro ao abrir o arquivo");
+    }
+    fread(&j, sizeof(jogo), 100, p);
+    limparTela();
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("      JOGOS COM TEMPO ENTRE %.1f e %.1f: \n", min, max);
+    fprintf(arq,"      JOGOS COM TEMPO ENTRE %.1f e %.1f: \n", min, max);
+    printf("  ------------------------------------------\n");
+    fprintf(arq, "  ------------------------------------------\n");
+
+    for(i=0; i<100; i++){
+        if((j[i].tempo >= min) && (j[i].tempo <= max)){
+                printf("  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);
+                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);                          
+        }
+    } 
+    fclose(p);
+    fclose(arq);
+    perguntar();
+}
+
+void por_conquista(){
+    FILE *arq;
+    FILE *p;   
+    jogo j[100];
+    int i, min, max;
+    limparTela();
+    printf("\n\n  --------------------------------------------------------------\n");
+    printf("                         POR CONQUISTAS \n");
+    printf("  --------------------------------------------------------------\n");
+    printf("  Qual é o número máximo de conquistas dos jogos que queres ver?\n");
+    printf("  §... ");
+    scanf("%i", &max);
+    printf("  E qual é o número mínimo de conquistas?\n");
+    printf("  §... ");
+    scanf("%i", &min);
+    arq = fopen("Pesquisa_Conquistas.txt", "w");
+    p = fopen(ARQ_NAME, "rb");
+    if(!p || !arq){
+        printf("  Erro ao abrir o arquivo");
+    }
+    fread(&j, sizeof(jogo), 100, p);
+    limparTela();
+    printf("\n  -------------------------------------------------\n");
+    fprintf(arq,"\n  -------------------------------------------------\n");
+    printf("    JOGOS COM NÚMERO DE CONQUISTAS ENTRE %i e %i: \n", min, max);
+    fprintf(arq,"    JOGOS COM NÚMERO DE CONQUISTAS ENTRE %i e %i: \n", min, max);
+    printf("  -------------------------------------------------\n");
+    fprintf(arq, "  -------------------------------------------------\n");
+
+    for(i=0; i<100; i++){
+        if((j[i].conquistas >= min) && (j[i].conquistas <= max)){
+            printf("  Nome: %s    \n  ID: %d    \n  Conquistas: %i\n\n", j[i].nome, j[i].id, j[i].conquistas);
+            fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Conquistas: %i\n\n", j[i].nome, j[i].id, j[i].conquistas);                          
+        }
+    } 
+    fclose(p);
+    fclose(arq);
+    perguntar();    
+}
     
-void pesq_ID(){
+void por_ID(){
     FILE *arq;
     FILE *p;
     jogo j[100];
     int i, k;
     int id;  
-    printf("Qual ID do jogo que queres ver?\n");
-    printf("§... ");
+    limparTela();
+    printf("  Qual ID do jogo que queres ver?\n");
+    printf("  §... ");
     scanf("%i", &id);
     arq = fopen("Pesquisa_de_ID.txt", "w");
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
-        printf("Erro ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
     }
     fread(&j, sizeof(jogo), 100, p);
-   
+    limparTela();
     for(i=0; i<100; i++){
         if(id==i+1){
-        
-            printf("\n------------------------------------------\n");
-            fprintf(arq,"\n------------------------------------------\n");
-            printf("                  JOGO %d \n", i+1);
-            fprintf(arq,"                  JOGO %d \n", i+1);
-            printf("------------------------------------------\n");
-            fprintf(arq, "------------------------------------------\n");
+            printf("\n  ------------------------------------------\n");
+            fprintf(arq,"\n  ------------------------------------------\n");
+            printf("                    JOGO %d \n", i+1);
+            fprintf(arq,"                    JOGO %d \n", i+1);
+            printf("  ------------------------------------------\n");
+            fprintf(arq, "  ------------------------------------------\n");
             printf("  Nome: %s\n", j[i].nome);
             fprintf(arq,"  Nome: %s\n", j[i].nome);
             printf("  Generos: ");
@@ -302,14 +473,19 @@ void pesq_ID(){
                     fprintf(arq,"%s, ", print_plataforma(j[i].plataformas[k]));
                 }
             }
-            printf("\n  Preço: %.2f\n", j[i].preco);
-            fprintf(arq,"\n  Preço: %.2f\n", j[i].preco);
+            if(j[i].preco == 0){
+                printf("\n  Preço: 0. (GRATUITO)\n");
+                fprintf(arq,"\n  Preço: 0. (GRATUITO)\n");
+            } else{
+                printf("\n  Preço: %.2f\n", j[i].preco);
+                fprintf(arq,"\n  Preço: %.2f\n", j[i].preco);
+            }
             printf("  Dificuldade: ");
             fprintf(arq,"  Dificuldade: ");
             if(strcmp(print_dificuldade(j[i].dificuldade), "NULO") != 0){
                     printf("%s\n", print_dificuldade(j[i].dificuldade));
                     fprintf(arq, "%s\n", print_dificuldade(j[i].dificuldade));
-                }
+            }
             printf("  Conquistas: %i\n", j[i].conquistas);
             fprintf(arq,"  Conquistas: %i\n", j[i].conquistas);
             printf("  ID: %i\n", j[i].id);
@@ -318,43 +494,60 @@ void pesq_ID(){
     }
     fclose(p);    
     fclose(arq);
+    perguntar();
 }
 
 
 int main(){
-    int sair = 0, e;    
+    int sair = 0, e; 
     do{
-        printf("\n\n------------------------------------------\n");
-        printf("              MENU PRINCIPAL\n");
-        printf("------------------------------------------\n");
-        printf("Como queres ver cada jogo?\n");
-        printf("[1] = Todos os Jogos.\n");
-        printf("[2] = Por Gênero.\n");
-        printf("[3] = Por Nota.\n");
-        printf("[9] = Por ID.\n");
-        printf("[0] = Sair.\n");
-        printf("\n§... ");
+        limparTela();
+        printf("\n\n  ------------------------------------------\n");
+        printf("                MENU PRINCIPAL\n");
+        printf("  ------------------------------------------\n");
+        printf("  Como queres ver cada jogo?\n");
+        printf("  [1] = Todos os Jogos.\n");
+        printf("  [2] = Por Gênero.\n");
+        printf("  [3] = Por Nota.\n");
+        printf("  [5] = Por Preço.\n");
+        printf("  [7] = Por Tempo.\n");
+        printf("  [8] = Por Número de Conquistas.\n");
+        printf("  [9] = Por ID.\n");
+        printf("  [0] = Sair.\n");
+        printf("\n  §... ");
         scanf("%d", &e);
+        limparTela();
         switch(e){
             case 1:
-                printf("Exibindo...");
+                printf("  Exibindo...");
                 exibindo_Nome();
                 break;
             case 2:
                 pesq_genero();
                 break;
             case 3:
-                pesq_nota();
+                por_nota();
+                break;
+            case 5:
+                por_preco();
+                break;
+            case 7:
+                por_tempo();
+                break;
+            case 8:
+                por_conquista();
                 break;
             case 9: 
-                pesq_ID();
+                por_ID();
                 break;
             case 0:
-                printf("\nSaindo do programa...");  
+                printf("\n  Gerando arquivo...");  
+                printf("\n  Saindo do programa...");  
                 sair = 67;
                 break;
             default:
-                printf("\nOpção não encontrada, jegue. Tente novamente.");
+                limparTela();
+                printf("\n  Opção não encontrada. Tente novamente.");
                 break;
         }
     } while(sair == 0);
