@@ -170,7 +170,7 @@ void perguntar(){
     }
 }
 
-void exibindo_Nome(){
+int exibindo_Nome(){
     FILE *p;
     FILE *arq;
     jogo j[100];
@@ -181,6 +181,7 @@ void exibindo_Nome(){
     if(!p){
         printf("  Erro ao abrir o arquivo");
         fprintf(arq,"  Erro ao abrir o arquivo");
+        return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
    
@@ -199,6 +200,7 @@ void exibindo_Nome(){
     fclose(p);    
     fclose(arq); 
     perguntar();
+    return 0;
 }
 
 int pesq_genero(){
@@ -211,6 +213,7 @@ int pesq_genero(){
     arq = fopen("Pesquisa_Gênero.txt", "w"); //
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
@@ -270,6 +273,7 @@ int por_nota(){
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 0;
     }
     fread(&j, sizeof(jogo), 100, p);
@@ -320,6 +324,7 @@ int por_preco(){
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("  Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 0;
     }
     limparTela();
@@ -369,6 +374,7 @@ int por_tempo(){
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("  Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     limparTela();
@@ -412,6 +418,7 @@ int por_conquista(){
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("  Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     limparTela();
@@ -456,13 +463,17 @@ int por_ID(){
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
         printf("  Erro ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     limparTela();
     printf("  Qual ID do jogo que queres ver?\n");
     printf("  §... ");
     scanf("%i", &id);
-    
+    if(id<1 || id>100){
+        printf("Id inexistente...");
+        return 1;
+    }
     fread(&j, sizeof(jogo), 100, p);
     limparTela();
     for(i=0; i<100; i++){
@@ -528,6 +539,7 @@ int por_plataforma(){
     arq = fopen("Pesquisa_Plataforma.txt", "w"); //
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
@@ -587,6 +599,7 @@ int por_dificuldade(){
     arq = fopen("Pesquisa_Dificuldade.txt", "w"); //
     if(!p || !arq){
         printf("Falha ao abrir o arquivo");
+        fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
