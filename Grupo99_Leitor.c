@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <locale.h>
 
 #define ARQ_NAME "Grupo_Jogos.bin"
 
@@ -632,6 +633,7 @@ int por_dificuldade(){
 }
 
 int main(){
+    setlocale(LC_ALL, "");
     int sair = 0, e; 
     do{
         limparTela();
