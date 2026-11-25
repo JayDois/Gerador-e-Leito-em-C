@@ -212,7 +212,7 @@ int pesq_genero(){
     p = fopen(ARQ_NAME, "rb");
     arq = fopen("Pesquisa_Gênero.txt", "w"); //
     if(!p || !arq){
-        printf("Falha ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
         fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
@@ -272,7 +272,7 @@ int por_nota(){
     arq = fopen("Pesquisa_Nota.txt", "w");
     p = fopen(ARQ_NAME, "rb");
     if(!p || !arq){
-        printf("Erro ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
         fprintf(arq,"  Erro ao abrir o arquivo");
         return 0;
     }
@@ -284,17 +284,17 @@ int por_nota(){
     printf("  Qual é a nota máxima dos jogos que queres ver?\n  [de 0 a 10]\n");
     printf("  §... ");
     scanf("%f", &max);
-    printf("  Qual é a nota mínima [de 0 a 10]?\n");
+    printf("  Qual é a nota mínima?\n  [de 0 a 10]\n");
     printf("  §... ");
     scanf("%f", &min);
    
     if(max>=6.8){
-    printf("\n  ------------------------------------------\n");
-    fprintf(arq,"\n  ------------------------------------------\n");
-    printf("        JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
-    fprintf(arq,"       JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
-    printf("  ------------------------------------------\n");
-    fprintf(arq,"  ------------------------------------------\n");
+        printf("\n  ------------------------------------------\n");
+        fprintf(arq,"\n  ------------------------------------------\n");
+        printf("        JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+        fprintf(arq,"       JOGOS COM NOTA DE %.1f a %.1f: \n", min, max);
+        printf("  ------------------------------------------\n");
+        fprintf(arq,"  ------------------------------------------\n");
 
         for(i=0; i<100; i++){
             if((j[i].nota >= min) && (j[i].nota <= max)){
@@ -328,7 +328,7 @@ int por_preco(){
         return 0;
     }
     limparTela();
-    printf("\n\n  --------------------------------------------------------\n");
+    printf("\n\n  ------------------------------------------------------------\n");
     printf("                          POR PREÇO \n");
     printf("  ------------------------------------------------------------\n");
     printf("  Qual é o preço máximo em reais(R$) dos jogos que queres ver?\n");
@@ -347,17 +347,17 @@ int por_preco(){
     printf("  ------------------------------------------\n");
     fprintf(arq, "  ------------------------------------------\n");
 
-        for(i=0; i<100; i++){
-            if((j[i].preco >= min) && (j[i].preco <= max)){
-                if(j[i].preco == 0){
-                    printf("  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);
-                    fprintf(arq, "  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);  
-                } else {
-                    printf("  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);
-                    fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);                          
-                }
-            } 
-        }
+    for(i=0; i<100; i++){
+        if((j[i].preco >= min) && (j[i].preco <= max)){
+            if(j[i].preco == 0){
+                printf("  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);
+                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);  
+            } else {
+                printf("  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);
+                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);                          
+            }
+        } 
+    }
     fclose(p);
     fclose(arq);
     perguntar();
@@ -399,8 +399,8 @@ int por_tempo(){
 
     for(i=0; i<100; i++){
         if((j[i].tempo >= min) && (j[i].tempo <= max)){
-                printf("  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);
-                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);                          
+            printf("  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);
+            fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Tempo: %.1f\n\n", j[i].nome, j[i].id, j[i].tempo);                          
         }
     } 
     fclose(p);
@@ -471,7 +471,7 @@ int por_ID(){
     printf("  §... ");
     scanf("%i", &id);
     if(id<1 || id>100){
-        printf("Id inexistente...");
+        printf("  Id inexistente...");
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
@@ -514,8 +514,8 @@ int por_ID(){
             printf("  Dificuldade: ");
             fprintf(arq,"  Dificuldade: ");
             if(strcmp(print_dificuldade(j[i].dificuldade), "NULO") != 0){
-                    printf("%s\n", print_dificuldade(j[i].dificuldade));
-                    fprintf(arq, "%s\n", print_dificuldade(j[i].dificuldade));
+                printf("%s\n", print_dificuldade(j[i].dificuldade));
+                fprintf(arq, "%s\n", print_dificuldade(j[i].dificuldade));
             }
             printf("  Conquistas: %i\n", j[i].conquistas);
             fprintf(arq,"  Conquistas: %i\n", j[i].conquistas);
@@ -538,7 +538,7 @@ int por_plataforma(){
     p = fopen(ARQ_NAME, "rb");
     arq = fopen("Pesquisa_Plataforma.txt", "w"); //
     if(!p || !arq){
-        printf("Falha ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
         fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
@@ -598,7 +598,7 @@ int por_dificuldade(){
     p = fopen(ARQ_NAME, "rb");
     arq = fopen("Pesquisa_Dificuldade.txt", "w"); //
     if(!p || !arq){
-        printf("Falha ao abrir o arquivo");
+        printf("  Erro ao abrir o arquivo");
         fprintf(arq,"  Erro ao abrir o arquivo");
         return 1;
     }
