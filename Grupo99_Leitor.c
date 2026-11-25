@@ -342,8 +342,8 @@ int por_preco(){
     limparTela();
     printf("\n  ------------------------------------------\n");
     fprintf(arq,"\n  ------------------------------------------\n");
-    printf("        JOGOS COM PREÇO DE %.1f a %.1f: \n", min, max);
-    fprintf(arq,"       JOGOS COM PREÇO DE %.1f a %.1f: \n", min, max);
+    printf("   JOGOS COM PREÇO DE %.2f R$ a %.2f R$: \n", min, max);
+    fprintf(arq,"  JOGOS COM PREÇO DE %.2f R$ a %.2f R$: \n", min, max);
     printf("  ------------------------------------------\n");
     fprintf(arq, "  ------------------------------------------\n");
 
@@ -353,8 +353,8 @@ int por_preco(){
                 printf("  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);
                 fprintf(arq, "  Nome: %s    \n  ID: %d    \n  GRATUITO\n\n", j[i].nome, j[i].id);  
             } else {
-                printf("  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);
-                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Preço: %.2f\n\n", j[i].nome, j[i].id, j[i].preco);                          
+                printf("  Nome: %s    \n  ID: %d    \n  Preço: %.2f R$\n\n", j[i].nome, j[i].id, j[i].preco);
+                fprintf(arq, "  Nome: %s    \n  ID: %d    \n  Preço: %.2f R$\n\n", j[i].nome, j[i].id, j[i].preco);                          
             }
         } 
     }
@@ -505,11 +505,11 @@ int por_ID(){
                 }
             }
             if(j[i].preco == 0){
-                printf("\n  Preço: 0. (GRATUITO)\n");
-                fprintf(arq,"\n  Preço: 0. (GRATUITO)\n");
+                printf("\n  Preço: 0 R$. (GRATUITO)\n");
+                fprintf(arq,"\n  Preço: 0 R$. (GRATUITO)\n");
             } else{
-                printf("\n  Preço: %.2f\n", j[i].preco);
-                fprintf(arq,"\n  Preço: %.2f\n", j[i].preco);
+                printf("\n  Preço: %.2f R$\n", j[i].preco);
+                fprintf(arq,"\n  Preço: %.2f R$\n", j[i].preco);
             }
             printf("  Dificuldade: ");
             fprintf(arq,"  Dificuldade: ");
