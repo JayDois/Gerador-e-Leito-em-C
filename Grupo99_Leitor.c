@@ -297,9 +297,10 @@ int por_nota(){
                 fprintf(arq,"  Nome: %s    \n  ID: %d    \n  Nota: %.1f\n\n", j[i].nome, j[i].id, j[i].nota);            
             } 
         }
-    } else{
+    }else{
         printf("\n  Infelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
         fprintf(arq,"\n  Infelizmente, não há jogos no sistema entre %.1f a %.1f\n", min, max);
+        perguntar();
         return 0;
     }
     fclose(p);
