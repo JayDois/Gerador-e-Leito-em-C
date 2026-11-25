@@ -213,27 +213,32 @@ int pesq_genero(){
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
-    printf("\n\n------------------------------------------\n");
-    printf("                POR GÊNERO\n");
-    printf("------------------------------------------\n");
-    printf("Qual genero deseja ver?\n");
+    printf("\n\n  ------------------------------------------\n");
+    printf("                  POR GÊNERO\n");
+    printf("  ------------------------------------------\n");
+    printf("  Qual genero deseja ver?\n");
     for(i=0;i<20;i++){
-        printf("[%d] = %s\n", i+1, print_genero(i));
+        printf("  [%d] = %s\n", i+1, print_genero(i));
     }
-    printf("[0] = Sair.\n");
-    printf("\n§... ");
+    if(e>20){
+        limparTela();
+        printf("\n  Opção não encontrada.\n  Tente novamente.");
+        pesq_genero();      
+    }
+    printf("  [0] = Sair.\n");
+    printf("\n  §... ");
     scanf("%d", &e);
     if(e == 0) {
         perguntar();
         return 1;
     }
     limparTela();    
-    printf("\n------------------------------------------\n");
-    fprintf(arq,"\n------------------------------------------\n");
-    printf("                  GÊNERO: %s\n", print_genero(e-1));
-    fprintf(arq,"                 GÊNERO: %s\n", print_genero(e-1));
-    printf("------------------------------------------\n");
-    fprintf(arq, "------------------------------------------\n");
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("                    GÊNERO: %s\n", print_genero(e-1));
+    fprintf(arq,"                   GÊNERO: %s\n", print_genero(e-1));
+    printf("  ------------------------------------------\n");
+    fprintf(arq,"  ------------------------------------------\n");
 
     if(e >20){
         return 1;
@@ -271,14 +276,13 @@ int por_nota(){
     printf("\n\n  ----------------------------------------------\n");
     printf("                     POR NOTA \n");
     printf("  ----------------------------------------------\n");
-    printf("  Qual é a nota máxima dos jogos que queres ver?\n");
+    printf("  Qual é a nota máxima dos jogos que queres ver?\n  [de 0 a 10]\n");
     printf("  §... ");
     scanf("%f", &max);
-    printf("  Qual é a nota mínima?\n");
+    printf("  Qual é a nota mínima [de 0 a 10]?\n");
     printf("  §... ");
     scanf("%f", &min);
    
-    limparTela();
     if(max>=6.8){
     printf("\n  ------------------------------------------\n");
     fprintf(arq,"\n  ------------------------------------------\n");
@@ -525,27 +529,32 @@ int por_plataforma(){
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
-    printf("\n\n------------------------------------------\n");
+    printf("\n\n  -------------------------------------------\n");
     printf("                POR PLATAFORMA\n");
-    printf("------------------------------------------\n");
-    printf("Jogos de qual plataforma deseja ver?\n");
+    printf("  -------------------------------------------\n");
+    printf("  Jogos de qual plataforma deseja ver?\n");
     for(i=0;i<16;i++){
-        printf("[%d] = %s\n", i+1, print_plataforma(i));
+        printf("  [%d] = %s\n", i+1, print_plataforma(i));
     }
-    printf("[0] = Sair.\n");
-    printf("\n§... ");
+    printf("  [0] = Sair.\n");
+    printf("\n  §... ");
     scanf("%d", &e);
+    if(e>16){
+        limparTela();
+        printf("\n  Opção não encontrada.\n  Tente novamente.");
+        por_plataforma();      
+    }
     if(e == 0){ 
         perguntar();
         return 1;
     }
     limparTela();    
-    printf("\n------------------------------------------\n");
-    fprintf(arq,"\n------------------------------------------\n");
-    printf("                  PLATAFORMA: %s\n", print_plataforma(e-1));
-    fprintf(arq,"                 PLATAFORMA: %s\n", print_plataforma(e-1));
-    printf("------------------------------------------\n");
-    fprintf(arq, "------------------------------------------\n");
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("                PLATAFORMA: %s\n", print_plataforma(e-1));
+    fprintf(arq,"               PLATAFORMA: %s\n", print_plataforma(e-1));
+    printf("  ------------------------------------------\n");
+    fprintf(arq, "  ------------------------------------------\n");
 
     if(e >16){
         return 1;
@@ -579,27 +588,32 @@ int por_dificuldade(){
         return 1;
     }
     fread(&j, sizeof(jogo), 100, p);
-    printf("\n\n------------------------------------------\n");
-    printf("                POR DIFICULDADE\n");
-    printf("------------------------------------------\n");
-    printf("Jogos de qual dificuldade deseja ver?\n");
+    printf("\n\n  ------------------------------------------\n");
+    printf("               POR DIFICULDADE\n");
+    printf("  ------------------------------------------\n");
+    printf("  Jogos de qual dificuldade deseja ver?\n");
     for(i=0;i<8;i++){
-        printf("[%d] = %s\n", i+1, print_dificuldade(i));
+        printf("  [%d] = %s\n", i+1, print_dificuldade(i));
     }
-    printf("[0] = Sair.\n");
-    printf("\n§... ");
+    printf("  [0] = Sair.\n");
+    printf("\n  §... ");
     scanf("%d", &e);
+    if(e>8){
+        limparTela();
+        printf("\n  Opção não encontrada.\n  Tente novamente.");
+        por_dificuldade();      
+    }
     if(e == 0){
         perguntar();
         return 1;
     }
     limparTela();    
-    printf("\n------------------------------------------\n");
-    fprintf(arq,"\n------------------------------------------\n");
-    printf("                  DIFICULDADE: %s\n", print_dificuldade(e-1));
-    fprintf(arq,"                 DIFICULDADE: %s\n", print_dificuldade(e-1));
-    printf("------------------------------------------\n");
-    fprintf(arq, "------------------------------------------\n");
+    printf("\n  ------------------------------------------\n");
+    fprintf(arq,"\n  ------------------------------------------\n");
+    printf("                DIFICULDADE: %s\n", print_dificuldade(e-1));
+    fprintf(arq,"               DIFICULDADE: %s\n", print_dificuldade(e-1));
+    printf("  ------------------------------------------\n");
+    fprintf(arq,"  ------------------------------------------\n");
 
     if(e >8){
         return 1;
