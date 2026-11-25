@@ -1,10 +1,5 @@
 #include <stdio.h>
 
-/*O programa deverá gerar automaticamente os dados, utilizando vetores de nomes, structs,
-categorias e valores aleatórios ou combinados. Esse primeiro programa deverá criar um arquivo
-.txt contendo 100 registros diferentes, seguindo o formato definido para o tema. Exemplo para
-alunos:*/
-
 #define ARQ_NAME "Grupo_Jogos.bin"
 
 typedef enum Genero{
